@@ -22,4 +22,19 @@ export default class blogController {
       });
     }
   }
+
+  static async viewBlogs(req, res) {
+    try {
+      const allBlogs = await blogSchema.find();
+      return res.status(200).json({
+        status: "Success",
+        data: allBlogs,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "fail",
+        message: "something went wrong " + error,
+      });
+    }
+  }
 }
