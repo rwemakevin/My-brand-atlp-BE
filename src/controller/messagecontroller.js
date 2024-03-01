@@ -18,7 +18,7 @@ export default class messageController {
     } catch (error) {
       return res.status(500).json({
         status: "fail",
-        message: "Something went wron, Please try again later",
+        message: "Something went wrong, Please try again later " + error,
       });
     }
   }
