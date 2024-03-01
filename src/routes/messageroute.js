@@ -6,5 +6,6 @@ const message = Router();
 
 message.post("/messages", messageController.sendMessage);
 message.get("/messages", messageController.viewMessages);
+message.get("/messages/:id", messageController.viewMessageById);
 
 export default message;

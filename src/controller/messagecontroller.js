@@ -38,4 +38,27 @@ export default class messageController {
       });
     }
   }
+
+  static async viewMessageById(req, res) {
+    try {
+      const id = req.params.id;
+      const message = await messageSchema.findById(id);
+      if (!message) {
+        return res.status(500).json({
+          status: "Fail",
+          message: "Message not found",
+        });
+      }
+
+      return res.status(200).json({
+        status: "success",
+        data: message,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "fail",
+        message: "something went wrong " + error,
+      });
+    }
+  }
 }
