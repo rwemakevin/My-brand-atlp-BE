@@ -91,4 +91,34 @@ export default class UserController {
       });
     }
   }
+
+  static async editUserById(req, res) {
+    try {
+      const id = req.params.id;
+      const { name, password } = req.body;
+      const updateUser = await userSchema.findByIdAndUpdate(
+        { _id: id },
+        {
+          name,
+          password,
+        }
+      );
+
+      if (!updateUser) {
+        return res.status(500).json({
+          status: "fail",
+          message: "user not found",
+        });
+      }
+
+      return res.status(200).json({
+        status: "success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "fail",
+        message: "Something went " + error,
+      });
+    }
+  }
 }
