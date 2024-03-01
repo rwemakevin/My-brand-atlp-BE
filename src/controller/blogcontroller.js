@@ -96,6 +96,7 @@ export default class blogController {
           title,
           author,
           content,
+          updatedAt: Date.now(),
         }
       );
 

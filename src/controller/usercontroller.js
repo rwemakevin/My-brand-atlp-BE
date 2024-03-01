@@ -101,6 +101,7 @@ export default class UserController {
         {
           name,
           password,
+          updatedAt: Date.now(),
         }
       );
 
