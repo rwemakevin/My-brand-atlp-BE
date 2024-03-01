@@ -68,4 +68,27 @@ export default class UserController {
       });
     }
   }
+
+  static async deleteUserById(req, res) {
+    try {
+      const id = req.params.id;
+      const deletedUser = await userSchema.findByIdAndDelete(id);
+      if (!deletedUser) {
+        return res.status(500).json({
+          status: "fail",
+          message: "user not found",
+        });
+      }
+
+      return res.status(200).json({
+        status: "success",
+        data: deletedUser,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "fail",
+        message: "something went wrong " + error,
+      });
+    }
+  }
 }
