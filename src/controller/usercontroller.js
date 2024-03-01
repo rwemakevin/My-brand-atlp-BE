@@ -29,4 +29,20 @@ export default class UserController {
       });
     }
   }
+
+  static async viewUsers(req, res) {
+    try {
+      const allUsers = await userSchema.find();
+      return res.status(200).json({
+        status: "success",
+        totalUsers: allUsers.length,
+        data: allUsers,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "fail",
+        message: "something went wrong " + error,
+      });
+    }
+  }
 }
