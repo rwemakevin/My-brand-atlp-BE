@@ -61,4 +61,27 @@ export default class messageController {
       });
     }
   }
+
+  static async deleteMessageById(req, res) {
+    try {
+      const id = req.params.id;
+      const deletedMessage = await messageSchema.findByIdAndDelete(id);
+      if (!deletedMessage) {
+        return res.status(500).json({
+          status: "fail",
+          data: deletedMessage,
+        });
+      }
+
+      return res.status(200).json({
+        status: "success",
+        data: deletedMessage,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "fail",
+        message: "Somthing went wrong " + error,
+      });
+    }
+  }
 }
