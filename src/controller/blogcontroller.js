@@ -1,4 +1,5 @@
 import blogSchema from "../model/blogSchema.js";
+import userSchema from "../model/userSchema.js";
 
 export default class blogController {
   static async addBlog(req, res) {
@@ -81,6 +82,36 @@ export default class blogController {
       return res.status(500).json({
         status: "fail",
         message: "something went wrong " + error,
+      });
+    }
+  }
+
+  static async updateBlogById(req, res) {
+    try {
+      const id = req.params.id;
+      const { title, author, content } = req.body;
+      const updatedBlog = await blogSchema.findByIdAndUpdate(
+        { _id: id },
+        {
+          title,
+          author,
+          content,
+        }
+      );
+
+      if (!updatedBlog) {
+        return res.status(500).json({
+          status: "fail",
+          message: "blog not found",
+        });
+      }
+      return res.status(200).json({
+        status: "success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "fail",
+        message: "Something went wrong " + error,
       });
     }
   }
