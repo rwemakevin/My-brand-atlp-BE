@@ -22,4 +22,20 @@ export default class messageController {
       });
     }
   }
+
+  static async viewMessages(req, res) {
+    try {
+      const allMessages = await messageSchema.find();
+      return res.status(200).json({
+        status: "Success",
+        totalMessages: allMessages.length,
+        data: allMessages,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "Fail",
+        message: "Something went wrong: " + error,
+      });
+    }
+  }
 }
