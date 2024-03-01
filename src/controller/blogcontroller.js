@@ -61,4 +61,27 @@ export default class blogController {
       });
     }
   }
+
+  static async deleteBlogById(req, res) {
+    try {
+      const id = req.params.id;
+      const deletedBlog = await blogSchema.findByIdAndDelete(id);
+      if (!deletedBlog) {
+        return res.status(500).json({
+          status: "fail",
+          message: "Item not found",
+        });
+      }
+
+      return res.status(200).json({
+        status: "success",
+        data: deletedBlog,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "fail",
+        message: "something went wrong " + error,
+      });
+    }
+  }
 }
