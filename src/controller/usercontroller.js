@@ -25,7 +25,7 @@ export default class UserController {
     } catch (error) {
       return res.status(500).json({
         status: "error",
-        message: error.message,
+        message: error,
       });
     }
   }
@@ -62,9 +62,9 @@ export default class UserController {
         data: user,
       });
     } catch (error) {
-      return res.status(500).json({
-        status: "fail",
-        message: "something went wrong " + error,
+      return res.status(404).json({
+        status: "not found",
+        message: "user not found",
       });
     }
   }
@@ -85,9 +85,9 @@ export default class UserController {
         data: deletedUser,
       });
     } catch (error) {
-      return res.status(500).json({
-        status: "fail",
-        message: "something went wrong " + error,
+      return res.status(404).json({
+        status: "not found",
+        message: "user not found",
       });
     }
   }
@@ -106,7 +106,7 @@ export default class UserController {
       );
 
       if (!updateUser) {
-        return res.status(500).json({
+        return res.status(404).json({
           status: "fail",
           message: "user not found",
         });
@@ -116,9 +116,9 @@ export default class UserController {
         status: "success",
       });
     } catch (error) {
-      return res.status(500).json({
+      return res.status(404).json({
         status: "fail",
-        message: "Something went " + error,
+        message: "user not found",
       });
     }
   }

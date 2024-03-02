@@ -1,5 +1,5 @@
 import blogSchema from "../model/blogSchema.js";
-import userSchema from "../model/userSchema.js";
+import mongoose from "mongoose";
 
 export default class blogController {
   static async addBlog(req, res) {
@@ -11,14 +11,14 @@ export default class blogController {
         content,
       });
 
-      return res.status(200).json({
-        status: "success",
+      return res.status(201).json({
+        status: "created",
         message: "blog added successfully",
         data: insertBlog,
       });
     } catch (error) {
       return res.status(500).json({
-        status: "fail",
+        status: "Internal server Error",
         message: "Something went wrong: " + error,
       });
     }
@@ -34,7 +34,7 @@ export default class blogController {
       });
     } catch (error) {
       return res.status(500).json({
-        status: "fail",
+        status: "Internal Server error",
         message: "something went wrong " + error,
       });
     }
@@ -45,10 +45,7 @@ export default class blogController {
       const id = req.params.id;
       const blog = await blogSchema.findById(id);
       if (!blog) {
-        return res.status(500).json({
-          status: "fail",
-          message: "Blog not found",
-        });
+        throw new Error("id not found");
       }
 
       return res.status(200).json({
@@ -56,9 +53,16 @@ export default class blogController {
         data: blog,
       });
     } catch (error) {
-      return res.status(500).json({
-        status: "Fail",
-        message: "Something went wrong: " + error,
+      if (error instanceof mongoose.CastError) {
+        return res.status(404).json({
+          status: "not found",
+          message: "Blog not found",
+        });
+      }
+
+      return res.status(404).json({
+        status: "not found",
+        message: "blog not found",
       });
     }
   }
@@ -67,21 +71,25 @@ export default class blogController {
     try {
       const id = req.params.id;
       const deletedBlog = await blogSchema.findByIdAndDelete(id);
+      console.log(deletedBlog);
       if (!deletedBlog) {
-        return res.status(500).json({
-          status: "fail",
-          message: "Item not found",
-        });
+        throw new Error("id not found");
       }
 
-      return res.status(200).json({
-        status: "success",
+      return res.status(204).json({
+        status: "No content",
         data: deletedBlog,
       });
     } catch (error) {
-      return res.status(500).json({
-        status: "fail",
-        message: "something went wrong " + error,
+      if (error instanceof mongoose.CastError) {
+        return res.status(404).json({
+          status: "not found",
+          message: "Blog not found",
+        });
+      }
+      return res.status(404).json({
+        status: "not found",
+        message: "blog not found",
       });
     }
   }
@@ -101,18 +109,24 @@ export default class blogController {
       );
 
       if (!updatedBlog) {
-        return res.status(500).json({
-          status: "fail",
-          message: "blog not found",
-        });
+        throw new Error("id not found");
       }
+
       return res.status(200).json({
-        status: "success",
+        status: "OK",
+        data: updatedBlog,
       });
     } catch (error) {
-      return res.status(500).json({
-        status: "fail",
-        message: "Something went wrong " + error,
+      if (error instanceof mongoose.CastError) {
+        return res.status(404).json({
+          status: "not found",
+          message: "Blog not found",
+        });
+      }
+
+      return res.status(404).json({
+        status: "not found",
+        message: "blog not found",
       });
     }
   }

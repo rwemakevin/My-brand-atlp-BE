@@ -1,4 +1,5 @@
 import messageSchema from "../model/messageSchema.js";
+import mongoose from "mongoose";
 
 export default class messageController {
   static async sendMessage(req, res) {
@@ -10,14 +11,14 @@ export default class messageController {
         messageContent: message,
       });
 
-      return res.status(200).json({
-        status: "Success",
+      return res.status(201).json({
+        status: "created",
         message: "Message sent succesfully",
         data: insertMessage,
       });
     } catch (error) {
       return res.status(500).json({
-        status: "fail",
+        status: "Internal server error",
         message: "Something went wrong, Please try again later " + error,
       });
     }
@@ -33,7 +34,7 @@ export default class messageController {
       });
     } catch (error) {
       return res.status(500).json({
-        status: "Fail",
+        status: "Internal server error",
         message: "Something went wrong: " + error,
       });
     }
@@ -44,8 +45,8 @@ export default class messageController {
       const id = req.params.id;
       const message = await messageSchema.findById(id);
       if (!message) {
-        return res.status(500).json({
-          status: "Fail",
+        return res.status(404).json({
+          status: "Not found",
           message: "Message not found",
         });
       }
@@ -55,9 +56,9 @@ export default class messageController {
         data: message,
       });
     } catch (error) {
-      return res.status(500).json({
-        status: "fail",
-        message: "something went wrong " + error,
+      return res.status(404).json({
+        status: "not found",
+        message: "Id not found",
       });
     }
   }
@@ -67,20 +68,24 @@ export default class messageController {
       const id = req.params.id;
       const deletedMessage = await messageSchema.findByIdAndDelete(id);
       if (!deletedMessage) {
-        return res.status(500).json({
-          status: "fail",
-          data: deletedMessage,
-        });
+        throw new Error("id not found");
       }
 
       return res.status(200).json({
-        status: "success",
+        status: "OK",
         data: deletedMessage,
       });
     } catch (error) {
-      return res.status(500).json({
-        status: "fail",
-        message: "Somthing went wrong " + error,
+      if (error instanceof mongoose.CastError) {
+        return res.status(404).json({
+          status: "not found",
+          message: "Blog not found",
+        });
+      }
+
+      return res.status(404).json({
+        status: "not found",
+        message: "message not found",
       });
     }
   }
