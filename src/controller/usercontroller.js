@@ -1,4 +1,5 @@
 import userSchema from "../model/userSchema.js";
+import bcrypt from "bcrypt";
 
 export default class UserController {
   static async registerUser(req, res) {
@@ -12,10 +13,13 @@ export default class UserController {
         });
       }
 
+      // for encrypting password
+      const salt = await bcrypt.genSalt(10);
+      const encryptedPassword = await bcrypt.hash(password, salt);
       const user = await userSchema.create({
         name,
         email,
-        password,
+        password: encryptedPassword,
       });
 
       return res.status(200).json({
