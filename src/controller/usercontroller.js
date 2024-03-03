@@ -20,7 +20,7 @@ export default class UserController {
 
       return res.status(200).json({
         status: "success",
-        data: user,
+        data: await userSchema.findById(user._id).select("-password"),
       });
     } catch (error) {
       return res.status(500).json({
@@ -32,7 +32,7 @@ export default class UserController {
 
   static async viewUsers(req, res) {
     try {
-      const allUsers = await userSchema.find();
+      const allUsers = await userSchema.find().select("-password");
       return res.status(200).json({
         status: "success",
         totalUsers: allUsers.length,
@@ -49,9 +49,9 @@ export default class UserController {
   static async viewUserById(req, res) {
     try {
       const id = req.params.id;
-      const user = await userSchema.findById(id);
+      const user = await userSchema.findById(id).select("-password");
       if (!user) {
-        return res.status(500).json({
+        return res.status(404).json({
           status: "fail",
           message: "User not found",
         });
@@ -72,16 +72,20 @@ export default class UserController {
   static async deleteUserById(req, res) {
     try {
       const id = req.params.id;
-      const deletedUser = await userSchema.findByIdAndDelete(id);
+      const deletedUser = await userSchema
+        .findByIdAndDelete(id)
+        .select("-password");
+
       if (!deletedUser) {
-        return res.status(500).json({
+        return res.status(404).json({
           status: "fail",
           message: "user not found",
         });
       }
-
+      //delete deletedUser.password;
       return res.status(200).json({
         status: "success",
+        message: "user deleted",
         data: deletedUser,
       });
     } catch (error) {
@@ -114,6 +118,7 @@ export default class UserController {
 
       return res.status(200).json({
         status: "success",
+        data: await userSchema.findById(id).select("-password"),
       });
     } catch (error) {
       return res.status(404).json({
