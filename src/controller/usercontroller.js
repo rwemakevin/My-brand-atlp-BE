@@ -16,6 +16,8 @@ export default class UserController {
       // for encrypting password
       const salt = await bcrypt.genSalt(10);
       const encryptedPassword = await bcrypt.hash(password, salt);
+
+      //add user to our collection
       const user = await userSchema.create({
         name,
         email,
@@ -30,6 +32,40 @@ export default class UserController {
       return res.status(500).json({
         status: "error",
         message: error,
+      });
+    }
+  }
+
+  static async loginUser(req, res) {
+    const { email, password } = req.body;
+
+    try {
+      //check if user exist using email
+      const user = await userSchema.findOne({ email: email });
+      if (!user) {
+        return res.status(404).json({
+          status: "not found",
+          message: "User not found",
+        });
+      }
+
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (result) {
+          return res.status(200).json({
+            status: "OK",
+            message: "Login successfully",
+          });
+        }
+
+        return res.status(500).json({
+          status: "fail",
+          message: "Incorrect credentials",
+        });
+      });
+    } catch (e) {
+      res.status(404).json({
+        status: "fail",
+        message: "something went wrong " + e,
       });
     }
   }
