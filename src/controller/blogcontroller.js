@@ -71,13 +71,14 @@ export default class blogController {
     try {
       const id = req.params.id;
       const deletedBlog = await blogSchema.findByIdAndDelete(id);
-      console.log(deletedBlog);
+
       if (!deletedBlog) {
         throw new Error("id not found");
       }
 
-      return res.status(204).json({
-        status: "No content",
+      return res.status(200).json({
+        status: "Sucess",
+        message: "blog deleted",
         data: deletedBlog,
       });
     } catch (error) {
@@ -114,7 +115,7 @@ export default class blogController {
 
       return res.status(200).json({
         status: "OK",
-        data: updatedBlog,
+        data: await blogSchema.findById(updatedBlog._id),
       });
     } catch (error) {
       if (error instanceof mongoose.CastError) {
@@ -126,7 +127,58 @@ export default class blogController {
 
       return res.status(404).json({
         status: "not found",
-        message: "blog not found",
+        message: "blog not found!!",
+      });
+    }
+  }
+
+  static async addCommentOnBlog(req, res) {
+    //get blog id perfect
+
+    const { content, name, email } = req.body;
+    const id = req.params.id;
+
+    const comment = {
+      name,
+      email,
+      content,
+    };
+
+    try {
+      //perfect
+      const blog = await blogSchema.findById(id);
+
+      if (!blog) {
+        return res.status(404).json({
+          status: "not found",
+          message: "blog not found",
+        });
+      }
+
+      const addComment = await blogSchema.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        {
+          $push: { comments: comment },
+        }
+      );
+
+      if (!addComment) {
+        return res.status(404).json({
+          status: "can't comment",
+          message: "can't comment",
+        });
+      }
+
+      res.status(200).json({
+        status: "Ok",
+        data: await blogSchema.findById(id),
+      });
+    } catch (e) {
+      return res.status(404).json({
+        status: "not found",
+        message: "Operation Failed",
       });
     }
   }
