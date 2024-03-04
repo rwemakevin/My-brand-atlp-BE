@@ -139,12 +139,13 @@ export default class UserController {
   static async editUserById(req, res) {
     try {
       const id = req.params.id;
-      const { name, password } = req.body;
+      const { name, password, role } = req.body;
       const updateUser = await userSchema.findByIdAndUpdate(
         { _id: id },
         {
           name,
           password,
+          role,
           updatedAt: Date.now(),
         }
       );
