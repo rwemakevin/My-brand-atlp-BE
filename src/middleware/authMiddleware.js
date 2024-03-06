@@ -34,6 +34,7 @@ export default class authMiddleWare {
     }
   }
 
+  // User
   static async level1Role(req, res, next) {
     try {
       const user = req.user;
@@ -53,10 +54,15 @@ export default class authMiddleWare {
     }
   }
 
+  // blogger , Admin, super Admin
   static async level2Role(req, res, next) {
     try {
       const user = req.user;
-      if (user.role === "blogger") {
+      if (
+        user.role === "blogger" ||
+        user.role === "admin" ||
+        user.role === "superadmin"
+      ) {
         return next();
       }
 
@@ -72,7 +78,7 @@ export default class authMiddleWare {
     }
   }
 
-  //admin or superaddmin
+  //admin or superadmin
   static async level3Role(req, res, next) {
     try {
       const user = req.user;
@@ -92,6 +98,7 @@ export default class authMiddleWare {
     }
   }
 
+  //Super Admin
   static async level4Role(req, res, next) {
     try {
       const user = req.user;

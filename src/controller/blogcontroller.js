@@ -142,6 +142,7 @@ export default class blogController {
       name,
       email,
       content,
+      timestamp: Date.now(),
     };
 
     try {

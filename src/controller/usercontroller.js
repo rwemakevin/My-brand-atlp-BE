@@ -148,11 +148,17 @@ export default class UserController {
     try {
       const id = req.params.id;
       const { name, password, role } = req.body;
+
+      // for encrypting password
+      const salt = await bcrypt.genSalt(10);
+      const encryptedPassword = await bcrypt.hash(password, salt);
+
+      //Query for Updating the user
       const updateUser = await userSchema.findByIdAndUpdate(
         { _id: id },
         {
           name,
-          password,
+          password: encryptedPassword,
           role,
           updatedAt: Date.now(),
         }
