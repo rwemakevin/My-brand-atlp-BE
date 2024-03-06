@@ -1,5 +1,6 @@
 import userSchema from "../model/userSchema.js";
 import bcrypt from "bcrypt";
+import { JWT } from "../helper/jwt.js";
 
 export default class UserController {
   static async registerUser(req, res) {
@@ -51,9 +52,16 @@ export default class UserController {
 
       bcrypt.compare(password, user.password, (err, result) => {
         if (result) {
+          const token = JWT.generateJwt({
+            userId: user._id,
+            role: user.role,
+            name: user.name,
+          });
           return res.status(200).json({
             status: "OK",
             message: "Login successfully",
+            role: user.role,
+            token,
           });
         }
 
