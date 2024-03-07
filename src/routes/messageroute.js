@@ -2,11 +2,16 @@ import { Router } from "express";
 
 import messageController from "../controller/messagecontroller.js";
 import authMiddleWare from "../middleware/authMiddleware.js";
+import validation from "../middleware/validationMiddleware.js";
 
 const message = Router();
 
 // Send message via contact form | Public endpoint
-message.post("/messages", messageController.sendMessage);
+message.post(
+  "/messages",
+  validation.validateaddMessage,
+  messageController.sendMessage
+);
 
 // View all messages | private endpoint
 message.get(
