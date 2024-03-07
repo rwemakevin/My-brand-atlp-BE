@@ -1,6 +1,7 @@
 import { Router } from "express";
 import blogController from "../controller/blogcontroller.js";
 import authMiddleWare from "../middleware/authMiddleware.js";
+import validation from "../middleware/validationMiddleware.js";
 
 const blog = Router();
 
@@ -9,6 +10,7 @@ blog.post(
   "/blog",
   authMiddleWare.isAuthenticated,
   authMiddleWare.level2Role,
+  validation.validateaddblog,
   blogController.addBlog
 );
 
@@ -31,6 +33,7 @@ blog.put(
   "/blogs/:id",
   authMiddleWare.isAuthenticated,
   authMiddleWare.level2Role,
+  validation.validateEditblog,
   blogController.updateBlogById
 );
 
@@ -38,6 +41,7 @@ blog.put(
 blog.put(
   "/comments/:id",
   authMiddleWare.isAuthenticated,
+  validation.validateaddComment,
   blogController.addCommentOnBlog
 );
 
