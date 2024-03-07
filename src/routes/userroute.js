@@ -1,13 +1,18 @@
 import { Router } from "express";
 import UserController from "../controller/usercontroller.js";
 import authMiddleWare from "../middleware/authMiddleware.js";
+import validation from "../middleware/validationMiddleware.js";
 const router = Router();
 
 //User login | Public endpoint
-router.post("/login", UserController.loginUser);
+router.post("/login", validation.validateLogin, UserController.loginUser);
 
 // create user account (Signup) | Public endpoint
-router.post("/register", UserController.registerUser);
+router.post(
+  "/register",
+  validation.validateRegister,
+  UserController.registerUser
+);
 
 //List all users | Private endpoint (level3)
 router.get(
@@ -38,6 +43,7 @@ router.put(
   "/users/:id",
   authMiddleWare.isAuthenticated,
   authMiddleWare.level4Role,
+  validation.validateEditUser,
   UserController.editUserById
 );
 export default router;
