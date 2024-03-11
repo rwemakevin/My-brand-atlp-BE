@@ -14,6 +14,8 @@ app.use("/api", user);
 app.use("/api", message);
 app.use("/api", blog);
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
   console.log("Server listening on port ");
 });
+
+export { app, server };

@@ -65,7 +65,7 @@ export default class UserController {
           });
         }
 
-        return res.status(500).json({
+        return res.status(401).json({
           status: "fail",
           message: "Incorrect credentials",
         });
