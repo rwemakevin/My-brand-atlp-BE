@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 1.0.0
+  description: A sample API
+servers:
+  - url: http://localhost:5025/api
+
+paths:
+  /login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User logged in successfully
+        "400":
+          description: Invalid login credentials
+  /register:
+    post:
+      summary: Create user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                verifyPassword:
+                  type: string
+
+      responses:
+        "200":
+          description: User registered successfully
+        "400":
+          description: Invalid registration data
