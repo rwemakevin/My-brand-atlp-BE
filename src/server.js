@@ -20,7 +20,7 @@ app.use("/api", message);
 app.use("/api", blog);
 
 const server = app.listen(process.env.PORT || 3000, () => {
-  console.log("Server listening on port ");
+  console.log("Server listening on port " + process.env.PORT);
 });
 
 export { app, server };

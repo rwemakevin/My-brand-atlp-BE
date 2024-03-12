@@ -1,4 +1,0 @@
-{
-    "ext": "js,json,yaml,yml",
-    "exec": "./src/server.js"
-  }
