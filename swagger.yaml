@@ -5,6 +5,7 @@ info:
   description: My Brand is a capstone project By ATLP
 servers:
   - url: http://localhost:5025/api
+  - url: https://my-brand-atlp-be.onrender.com/api
 
 tags:
   - name: User
