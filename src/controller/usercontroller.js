@@ -57,6 +57,7 @@ export default class UserController {
             role: user.role,
             name: user.name,
           });
+
           return res.status(200).json({
             status: "OK",
             message: "Login successfully",

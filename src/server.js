@@ -13,6 +13,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Swagger UI setup
+const swaggerUiOptions = {
+  customCss: ".authorize-btn { display: inline !important; }",
+  customSiteTitle: "Your API Documentation",
+};
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api", user);

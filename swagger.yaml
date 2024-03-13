@@ -5,6 +5,7 @@ info:
   description: My Brand is a capstone project By ATLP
 servers:
   - url: http://localhost:5025/api
+
 tags:
   - name: User
     description: Operations related to users
@@ -69,6 +70,8 @@ paths:
       tags:
         - User
       description: Authorized users can view lists of all users
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: a list of all users
@@ -268,32 +271,7 @@ paths:
           description: Internal server error
         "401":
           description: Not authorized
-  /blog:
-    post:
-      summary: Create a new Blog
-      tags:
-        - Blog
-      description: Authorized users can create a blog
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                author:
-                  type: string
-                content:
-                  type: string
-      responses:
-        "201":
-          description: created
-        "500":
-          description: Internal server error
-        "401":
-          description: Unauthorized
+
   /blogs:
     get:
       summary: View all Blogs
@@ -319,6 +297,31 @@ paths:
           description: Internal server error
         "401":
           description: "Not authorized"
+    post:
+      summary: Create a new Blog
+      tags:
+        - Blog
+      description: Authorized users can create a blog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                author:
+                  type: string
+                content:
+                  type: string
+      responses:
+        "201":
+          description: created
+        "500":
+          description: Internal server error
+        "401":
+          description: Unauthorized
   /blogs/{id}:
     get:
       summary: Find blog By Id
@@ -436,6 +439,8 @@ paths:
           description: Not authorized
         "500":
           description: Internal server error
+security:
+  - bearerAuth: []
 components:
   schemas:
     Users:
@@ -523,3 +528,8 @@ components:
               name: Andela
               email: Andela@gmail.com
               content: Congrats, Kevin!!
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

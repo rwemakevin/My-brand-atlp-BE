@@ -7,7 +7,7 @@ const blog = Router();
 
 // create blog | Private endpoint (Level 2)
 blog.post(
-  "/blog",
+  "/blogs",
   authMiddleWare.isAuthenticated,
   authMiddleWare.level2Role,
   validation.validateaddblog,
@@ -40,8 +40,8 @@ blog.put(
 // add Comment on one Blog | Private endpoint (everyone)
 blog.put(
   "/comments/:id",
-  authMiddleWare.isAuthenticated,
-  validation.validateaddComment,
+  // authMiddleWare.isAuthenticated,
+  // validation.validateaddComment,
   blogController.addCommentOnBlog
 );
 
