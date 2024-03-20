@@ -56,6 +56,7 @@ export default class UserController {
             userId: user._id,
             role: user.role,
             name: user.name,
+            email: user.email,
           });
 
           return res.status(200).json({

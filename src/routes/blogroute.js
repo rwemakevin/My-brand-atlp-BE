@@ -45,4 +45,10 @@ blog.put(
   blogController.addCommentOnBlog
 );
 
+blog.put(
+  "/likes/:id",
+  authMiddleWare.isAuthenticated,
+  blogController.addLikeOnBlog
+);
+
 export default blog;

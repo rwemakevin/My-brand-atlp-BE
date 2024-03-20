@@ -17,6 +17,9 @@ const blogSchema = new mongoose.Schema({
   comments: {
     type: [Object],
   },
+  likes: {
+    type: [Object],
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

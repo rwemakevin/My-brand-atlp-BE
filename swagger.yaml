@@ -440,6 +440,42 @@ paths:
           description: Not authorized
         "500":
           description: Internal server error
+  /likes/{id}:
+    put:
+      summary: Like a blog post
+      parameters:
+        - name: id
+          in: path
+          description: id for blog to like
+          required: true
+          schema:
+            type: string
+      tags:
+        - Blog
+      description: Only authenticated users can like a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                email:
+                  type: string
+
+      responses:
+        "200":
+          description: success
+        "404":
+          description: Blog not found
+        "401":
+          description: Not authorized
+        "500":
+          description: Internal server error
 security:
   - bearerAuth: []
 components:
