@@ -187,17 +187,18 @@ export default class blogController {
   static async addLikeOnBlog(req, res) {
     //get blog id perfect
 
-    const { name, email } = req.body;
+    const { name, email, userId } = req.body;
     const id = req.params.id;
 
     const likeData = {
+      userId,
       name,
       email,
       timestamp: Date.now(),
     };
 
     try {
-      //perfect
+      //check if we have blog with provided Id
       const blog = await blogSchema.findById(id);
 
       if (!blog) {
@@ -206,6 +207,19 @@ export default class blogController {
           message: "blog not found",
         });
       }
+
+      const likeArray = await blogSchema.findById(id).select("likes");
+      const likeArray2 = likeArray.likes;
+      console.log(likeArray2);
+
+      likeArray2.forEach((item, index) => {
+        if (item.email == email) {
+          return res.status(400).json({
+            status: "Fail",
+            message: "Blog can only be liked one time",
+          });
+        }
+      });
 
       const addLike = await blogSchema.findOneAndUpdate(
         {
@@ -217,21 +231,22 @@ export default class blogController {
       );
 
       if (!addLike) {
-        return res.status(404).json({
-          status: "can't like",
+        return res.status(500).json({
+          status: "Something went wrong",
           message: "can't like",
         });
       }
 
       res.status(200).json({
         status: "Ok",
-        data: await blogSchema.findById(id),
+        data: await blogSchema.findById(id).select("likes"),
       });
     } catch (e) {
-      return res.status(404).json({
-        status: "not found",
-        message: "Operation Failed",
-      });
+      console.error(e);
+      // return res.status(404).json({
+      //   status: "not found",
+      //   message: "Operation Failed",
+      // });
     }
   }
 }
