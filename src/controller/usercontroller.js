@@ -184,4 +184,16 @@ export default class UserController {
       });
     }
   }
+
+  static async getCountofAllUsers(req, res) {
+    try {
+      const count = await userSchema.countDocuments();
+      return res.status(200).json({
+        status: "Ok",
+        data: count,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }

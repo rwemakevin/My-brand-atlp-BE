@@ -37,4 +37,6 @@ message.delete(
   messageController.deleteMessageById
 );
 
+message.get("/messageCount", messageController.getCountOfAllMessages);
+
 export default message;

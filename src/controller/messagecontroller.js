@@ -89,4 +89,16 @@ export default class messageController {
       });
     }
   }
+
+  static async getCountOfAllMessages(req, res) {
+    try {
+      const count = await messageSchema.countDocuments();
+      return res.status(200).json({
+        status: "Ok",
+        data: count,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }

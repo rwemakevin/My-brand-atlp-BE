@@ -249,4 +249,16 @@ export default class blogController {
       // });
     }
   }
+
+  static async getCountofAllBlogs(req, res) {
+    try {
+      const count = await blogSchema.countDocuments();
+      return res.status(200).json({
+        status: "Ok",
+        data: count,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }

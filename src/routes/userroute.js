@@ -46,4 +46,6 @@ router.put(
   validation.validateEditUser,
   UserController.editUserById
 );
+
+router.get("/userCount", UserController.getCountofAllUsers);
 export default router;

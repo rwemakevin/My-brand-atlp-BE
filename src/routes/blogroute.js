@@ -51,4 +51,6 @@ blog.put(
   blogController.addLikeOnBlog
 );
 
+blog.get("/blogCount", blogController.getCountofAllBlogs);
+
 export default blog;

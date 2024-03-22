@@ -272,6 +272,42 @@ paths:
           description: Internal server error
         "401":
           description: Not authorized
+  /messagecount:
+    get:
+      summary: Get total count of messages
+      tags:
+        - Message
+      description: Anyone can Get a total number of messages
+      responses:
+        "200":
+          description: a count of all messages on the platform
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: string
+  /usercount:
+    get:
+      summary: Get total count of users
+      tags:
+        - User
+      description: Anyone can Get a total number of Users
+      responses:
+        "200":
+          description: a count of all users on the platform
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: string
 
   /blogs:
     get:
@@ -476,6 +512,24 @@ paths:
           description: Not authorized
         "500":
           description: Internal server error
+  /blogcount:
+    get:
+      summary: Get total count of Blogs
+      tags:
+        - Blog
+      description: Anyone can Get a total number of Blogs
+      responses:
+        "200":
+          description: a count of all blogs on the platform
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: string
 security:
   - bearerAuth: []
 components:
