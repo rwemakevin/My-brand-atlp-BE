@@ -6,7 +6,8 @@ export default class UserController {
   static async registerUser(req, res) {
     try {
       const { name, email, password } = req.body;
-      const isUserExist = await userSchema.findOne({ email: email });
+      const newEmail = email.toLowerCase();
+      const isUserExist = await userSchema.findOne({ email: newEmail });
       if (isUserExist) {
         return res.status(400).json({
           status: "fail",
@@ -21,7 +22,7 @@ export default class UserController {
       //add user to our collection
       const user = await userSchema.create({
         name,
-        email,
+        email: newEmail,
         password: encryptedPassword,
       });
 
@@ -39,10 +40,11 @@ export default class UserController {
 
   static async loginUser(req, res) {
     const { email, password } = req.body;
+    const newEmail = email.toLowerCase();
 
     try {
       //check if user exist using email
-      const user = await userSchema.findOne({ email: email });
+      const user = await userSchema.findOne({ email: newEmail });
       if (!user) {
         return res.status(404).json({
           status: "not found",
