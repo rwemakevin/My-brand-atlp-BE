@@ -12,7 +12,7 @@ export default class subscribeController {
       });
 
       if (isSubscribed) {
-        return res.status(400).json({
+        return res.status(409).json({
           status: "fail",
           message: "User already subscribed",
         });
