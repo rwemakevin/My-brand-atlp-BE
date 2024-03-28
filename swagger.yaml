@@ -14,6 +14,8 @@ tags:
     description: Operations related to messages
   - name: Blog
     description: Operations related to Blogs
+  - name: Subscribe
+    description: Operations related to Subscriptions
 
 paths:
   /login:
@@ -530,6 +532,32 @@ paths:
                     type: string
                   data:
                     type: string
+  /subscribe:
+    post:
+      tags:
+        - Subscribe
+      description: Any one can subscribe to our newsletter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullname:
+                  type: string
+                email:
+                  type: string
+      responses:
+        "400":
+          description: Validation error
+        "200":
+          description: User was added succesfully
+        "500":
+          description: Server Error
+        "409":
+          description: Error, Duplicate entry
+
 security:
   - bearerAuth: []
 components:
