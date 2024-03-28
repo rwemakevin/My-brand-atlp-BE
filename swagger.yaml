@@ -534,6 +534,7 @@ paths:
                     type: string
   /subscribe:
     post:
+      summary: Add subscriber
       tags:
         - Subscribe
       description: Any one can subscribe to our newsletter
@@ -557,6 +558,35 @@ paths:
           description: Server Error
         "409":
           description: Error, Duplicate entry
+    get:
+      summary: View all subscribers
+      tags:
+        - Subscribe
+      description: Authorized users can view a full list of subscribers
+
+      responses:
+        "200":
+          description: a list of all subscribers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Subscribers"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Subscribers"
+
+        "500":
+          description: Internal server error
+        "404":
+          description: Not found
+        "403":
+          description: Access Denied
+        "401":
+          description: Unauthorized, (Not logged in)
 
 security:
   - bearerAuth: []
@@ -647,6 +677,30 @@ components:
               name: Andela
               email: Andela@gmail.com
               content: Congrats, Kevin!!
+    Subscribers:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: "65e5f00aeaee631f21c3c92e"
+        name:
+          type: string
+          example: "Kevin Rwema"
+        email:
+          type: string
+          example: "kevinrwema@gmail.com"
+        subscribeStatus:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          description: User created at
+        updatedAt:
+          type: string
+          description: User last updated at
+
   securitySchemes:
     bearerAuth:
       type: http

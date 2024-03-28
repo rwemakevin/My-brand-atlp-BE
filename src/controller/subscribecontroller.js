@@ -36,4 +36,27 @@ export default class subscribeController {
       });
     }
   }
+
+  static async viewSubscribers(req, res) {
+    try {
+      const allSubscribers = await subscribeSchema.find();
+      if (allSubscribers !== null) {
+        return res.status(200).json({
+          status: "success",
+          totalSubscribers: allSubscribers.length,
+          data: allSubscribers,
+        });
+      } else {
+        return res.status(404).json({
+          status: "not found",
+          message: "Something went wrong",
+        });
+      }
+    } catch (e) {
+      return res.status(500).json({
+        status: "fail",
+        message: e,
+      });
+    }
+  }
 }
