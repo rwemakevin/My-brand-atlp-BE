@@ -6,7 +6,7 @@ export default class messageController {
     try {
       const { fullname, email, message } = req.body;
       const insertMessage = await messageSchema.create({
-        fullName: fullname,
+        fullname: fullname,
         email: email,
         messageContent: message,
       });

@@ -128,4 +128,18 @@ export default class validation {
 
     next();
   }
+
+  static validateAddSubscriber(req, res, next) {
+    const schema = Joi.object({
+      fullname: Joi.string().required(),
+      email: Joi.string().email().required(),
+    });
+
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
+    next();
+  }
 }

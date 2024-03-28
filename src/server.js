@@ -4,6 +4,7 @@ import cors from "cors";
 import user from "./routes/userroute.js";
 import message from "./routes/messageroute.js";
 import blog from "./routes/blogroute.js";
+import subscribe from "./routes/subscriberoute.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../transform.js";
 
@@ -24,6 +25,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", user);
 app.use("/api", message);
 app.use("/api", blog);
+app.use("/api", subscribe);
 
 const server = app.listen(process.env.PORT || 3000, () => {
   console.log("Server listening on port " + process.env.PORT);
