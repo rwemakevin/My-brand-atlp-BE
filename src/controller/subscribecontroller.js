@@ -59,4 +59,16 @@ export default class subscribeController {
       });
     }
   }
+
+  static async getCountofAllSubscribers(req, res) {
+    try {
+      const count = await subscribeSchema.countDocuments();
+      return res.status(200).json({
+        status: "Ok",
+        data: count,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }

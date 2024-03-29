@@ -587,7 +587,24 @@ paths:
           description: Access Denied
         "401":
           description: Unauthorized, (Not logged in)
-
+  /subscriberCount:
+    get:
+      summary: Get total counts of Subscriber
+      tags:
+        - Subscribe
+      description: Anyone can get a total number of subscriber
+      responses:
+        "200":
+          description: a count of all subscribed users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: string
 security:
   - bearerAuth: []
 components:

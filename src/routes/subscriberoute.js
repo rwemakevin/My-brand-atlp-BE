@@ -18,4 +18,6 @@ subscribe.get(
   subscribeController.viewSubscribers
 );
 
+subscribe.get("/subscriberCount", subscribeController.getCountofAllSubscribers);
+
 export default subscribe;
