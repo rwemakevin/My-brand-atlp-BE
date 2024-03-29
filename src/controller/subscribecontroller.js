@@ -8,7 +8,7 @@ export default class subscribeController {
 
       //Check if user subscribed
       const isSubscribed = await subscribeSchema.findOne({
-        email: email,
+        email: email.toLowerCase(),
       });
 
       if (isSubscribed) {
@@ -19,7 +19,7 @@ export default class subscribeController {
       } else {
         const addNewSubscriber = await subscribeSchema.create({
           name: fullname,
-          email: email,
+          email: email.toLowerCase(),
         });
 
         if (addNewSubscriber !== null) {
