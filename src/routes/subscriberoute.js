@@ -18,6 +18,13 @@ subscribe.get(
   subscribeController.viewSubscribers
 );
 
+subscribe.put(
+  "/subscribe/:id",
+  authMiddleWare.isAuthenticated,
+  authMiddleWare.level3Role,
+  subscribeController.editSubscriber
+);
+
 subscribe.get("/subscriberCount", subscribeController.getCountofAllSubscribers);
 
 export default subscribe;

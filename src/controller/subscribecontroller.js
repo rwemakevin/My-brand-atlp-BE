@@ -71,4 +71,34 @@ export default class subscribeController {
       console.error(e);
     }
   }
+
+  static async editSubscriber(req, res) {
+    try {
+      const id = req.params.id;
+      const newStatus = req.body.status;
+      const update = await subscribeSchema.findByIdAndUpdate(
+        { _id: id },
+        {
+          subscribeStatus: newStatus,
+          updatedAt: Date.now(),
+        }
+      );
+
+      if (!update) {
+        throw new Error("id not found");
+      }
+
+      console.log("Endpoint Hit");
+      return res.status(200).json({
+        status: "OK",
+        data: await subscribeSchema.findById(update._id),
+      });
+    } catch (e) {
+      console.error(e.message);
+      return res.status(500).json({
+        status: "error",
+        message: e,
+      });
+    }
+  }
 }
