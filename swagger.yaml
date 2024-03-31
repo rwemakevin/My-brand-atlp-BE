@@ -587,6 +587,37 @@ paths:
           description: Access Denied
         "401":
           description: Unauthorized, (Not logged in)
+  /subscribe/{id}:
+    put:
+      summary: Update subscriber's status
+      parameters:
+        - name: id
+          in: path
+          description: Subscriber's ID to update
+          required: true
+          schema:
+            type: string
+      tags:
+        - Subscribe
+      description: Authorized users can edit a subscriber
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: boolean
+      responses:
+        "200":
+          description: success
+        "401":
+          description: Unauthorized
+        "400":
+          description: Bad Request (Database)
+        "500":
+          description: Server Error
   /subscriberCount:
     get:
       summary: Get total counts of Subscriber

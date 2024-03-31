@@ -95,10 +95,17 @@ export default class subscribeController {
       });
     } catch (e) {
       console.error(e.message);
-      return res.status(500).json({
-        status: "error",
-        message: e,
-      });
+      if (e instanceof mongoose.Error) {
+        res.status(400).json({
+          status: "error",
+          message: e,
+        });
+      } else {
+        return res.status(500).json({
+          status: "error",
+          message: e,
+        });
+      }
     }
   }
 }
